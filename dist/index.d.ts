@@ -1,0 +1,4 @@
+import { Next, ParameterizedContext } from "koa";
+import Router from "koa-router";
+import { ScanControllerOpts } from "./src/util";
+export default function ClassifyKoaRouter(router: Router, scanController: ScanControllerOpts): (ctx: ParameterizedContext, next: Next) => Promise<void>;
