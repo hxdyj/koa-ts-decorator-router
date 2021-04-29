@@ -1,5 +1,6 @@
 import { Next, ParameterizedContext, Request } from "koa";
 import Router from "koa-router";
+import { Controller, Method } from "./src/ClassifyKoaRouterDecorator";
 import { scanControllerAndRegister, ScanControllerOpts } from "./src/util";
 
 export default function ClassifyKoaRouter(router:Router,
@@ -15,3 +16,4 @@ export default function ClassifyKoaRouter(router:Router,
         await next()
     }
 }
+export {Controller,Method}

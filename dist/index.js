@@ -36,6 +36,10 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Method = exports.Controller = void 0;
+var ClassifyKoaRouterDecorator_1 = require("./src/ClassifyKoaRouterDecorator");
+Object.defineProperty(exports, "Controller", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.Controller; } });
+Object.defineProperty(exports, "Method", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.Method; } });
 var util_1 = require("./src/util");
 function ClassifyKoaRouter(router, scanController) {
     util_1.scanControllerAndRegister(router, scanController);
