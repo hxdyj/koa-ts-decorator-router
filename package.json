@@ -1,6 +1,6 @@
 {
   "name": "koa-ts-decorator-router",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "you can via typescript class decorator to define koa-routers.",
   "main": "./dist/index.js",
   "scripts": {

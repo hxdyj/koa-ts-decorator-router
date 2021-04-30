@@ -5,14 +5,15 @@ type ControllerDecoratorConf = {
     path?: string
 }
 
-type MethodType = 'get' | 'post' | 'delete' | 'put' 
+export type MethodType = 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'ALL'
+
 type MethodDecoratorConf = {
     path?: string,
     method?: MethodType,
-    rateLimitInstance?:RateLimiterStoreAbstract
-    rateLimitConsumeFn?:{
-        (rateLimitInstance:RateLimiterStoreAbstract,ctx:ParameterizedContext): Promise<any>;
-      };
+    rateLimitInstance?: RateLimiterStoreAbstract
+    rateLimitConsumeFn?: {
+        (rateLimitInstance: RateLimiterStoreAbstract, ctx: ParameterizedContext): Promise<any>;
+    };
 }
 
 export type ControllerType = Function & ControllerDecoratorConf
@@ -21,8 +22,8 @@ export type ControllerMethod = Function & MethodDecoratorConf & {
 }
 
 export function fixPath(path: string | undefined) {
-    let result = path||''
-    return trimChars('/',result)
+    let result = path || ''
+    return trimChars('/', result)
 }
 
 
@@ -38,9 +39,9 @@ export function Method(conf?: MethodDecoratorConf) {
         let path = fixPath(conf?.path || propertyKey)
         Object.assign(target[propertyKey], {
             path: path,
-            method: conf?.method || 'get',
-            rateLimitConsumeFn:conf?.rateLimitConsumeFn,
-            rateLimitInstance:conf?.rateLimitInstance
+            method: conf?.method || 'GET',
+            rateLimitConsumeFn: conf?.rateLimitConsumeFn,
+            rateLimitInstance: conf?.rateLimitInstance
         })
     };
 }

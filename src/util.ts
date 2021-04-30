@@ -1,3 +1,4 @@
+import { ParameterizedContext } from "koa";
 import Router from "koa-router";
 import { getOtherOpts } from "./baseUtil";
 import { ControllerMethod, ControllerType, fixPath } from "./ClassifyKoaRouterDecorator";
@@ -7,6 +8,7 @@ export type ScanControllerOpts = {
     dirname: string,
     filter: RegExp
 }
+
 
 function register(router: Router, controller: ControllerType, isInstance = false) {
     let currentController = isInstance ? Reflect.get(controller, '__proto__') : controller
@@ -19,10 +21,12 @@ function register(router: Router, controller: ControllerType, isInstance = false
             controllerPath = controllerPath ? '/' + controllerPath + '/' : '/'
             const methodPath = fixPath(func.path || key)  // 没有写注解的method默认取方法名
             let path = controllerPath + methodPath
+            let method = (func.method || 'GET').toLowerCase()
             if (getOtherOpts().logRoute) {
-                console.log(`${(func.method || 'get').toUpperCase().padEnd(8)} : ${path}`);
+                console.log(`${method.padEnd(8)} : ${path}`);
             }
-            router[func.method || 'get'](path, async ctx => {
+            let routerFunc: Function = Reflect.get(router, method)
+            routerFunc(path, async (ctx: ParameterizedContext) => {
                 try {
                     if (func.rateLimitInstance && func.rateLimitConsumeFn) {
                         await func.rateLimitConsumeFn.call(null, func.rateLimitInstance, ctx)
@@ -33,7 +37,7 @@ function register(router: Router, controller: ControllerType, isInstance = false
                 }
                 if (ctx.status == 429) return
                 let param = dealParam(ctx)
-                let result = await func.call(controller, param, ctx.request)
+                let result = await func.call(controller, param, ctx.request, router)
                 if (result instanceof Promise) {
                     result.catch((err: Error) => {
                         return err

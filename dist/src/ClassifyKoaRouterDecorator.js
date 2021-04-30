@@ -23,7 +23,7 @@ function Method(conf) {
         var path = fixPath((conf === null || conf === void 0 ? void 0 : conf.path) || propertyKey);
         Object.assign(target[propertyKey], {
             path: path,
-            method: (conf === null || conf === void 0 ? void 0 : conf.method) || 'get',
+            method: (conf === null || conf === void 0 ? void 0 : conf.method) || 'GET',
             rateLimitConsumeFn: conf === null || conf === void 0 ? void 0 : conf.rateLimitConsumeFn,
             rateLimitInstance: conf === null || conf === void 0 ? void 0 : conf.rateLimitInstance
         });

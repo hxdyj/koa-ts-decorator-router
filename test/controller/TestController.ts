@@ -29,7 +29,7 @@ export default class TestController {
 })
 export class Test1 {
     @Method({
-        method: "post"
+        method: 'POST'
     })
     async nostatic(list: any) {
         return list

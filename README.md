@@ -19,7 +19,7 @@ export class UserController {
 
     @Method({
         path:'myRegister',
-        method: "post"
+        method: "POST"
     })
     async register({ name, pass }: User) {
         const user = new User()
@@ -76,7 +76,7 @@ type ScanControllerOpts = {
 ```
 #### otherOpts Type
 ```ts
- type OtherOpts = {
+type OtherOpts = {
     logRoute?:boolean // console.log register route, while you debug app you can turn on this config.
 }
 ```
@@ -136,7 +136,7 @@ koa-route will be `router.get(/user/login)`
 ```ts
 export class UserController {
     @Method({
-        method:'post'
+        method:'POST'
     })
     login({ name }: User) {
         console.log('param', name);
@@ -154,7 +154,7 @@ koa-route will be `router.post(/login)`
 })
 export class UserController {
     @Method({
-        method:'post',
+        method:'POST',
         path:'//login////'
     })
     login({ name }: User) {
@@ -173,7 +173,7 @@ koa-route will be `router.post(/user/login)`
 })
 export class UserController {
     @Method({
-        method:'post',
+        method:'POST',
         path:'login/:id'
     })
     login({ name }: User) {
@@ -186,8 +186,8 @@ koa-route will be `router.post(/user/login/:id)`
 
 ### Controller Method Param
 
-* request.body is `Array`, It will be call `login(request.body, ctx.request)`
-* request.body is `Object`,It will be call `login(Object.assign(request.body,request.query), ctx.request)`
+* request.body is `Array`, It will be call `login(request.body, ctx.request, router)`
+* request.body is `Object`,It will be call `login(Object.assign(request.body,request.query), ctx.request, router)`
 * If method `First param` is `Array` or `Object` ,we will try to   auto recursion transform param value, convert `string` to `number` or `float`.
 
 **Example**  
@@ -236,7 +236,7 @@ export class UserController {
 
     @Method({
         path:'myRegister',
-        method: "post"
+        method: "POST"
     })
     async register({ name, pass }: User) {
         const user = new User()
@@ -256,7 +256,7 @@ Upload usage:
 })
 export class FileController {
     @Method({
-        method: 'post'
+        method: 'POST'
     })
     upload(params:any,{ files }: { files:Files }) {
         return saveFiles(files).map(i=>{

@@ -54,10 +54,12 @@ function register(router, controller, isInstance) {
             controllerPath = controllerPath ? '/' + controllerPath + '/' : '/';
             var methodPath = ClassifyKoaRouterDecorator_1.fixPath(func_1.path || key); // 没有写注解的method默认取方法名
             var path = controllerPath + methodPath;
+            var method = (func_1.method || 'GET').toLowerCase();
             if (baseUtil_1.getOtherOpts().logRoute) {
-                console.log((func_1.method || 'get').toUpperCase().padEnd(8) + " : " + path);
+                console.log(method.padEnd(8) + " : " + path);
             }
-            router[func_1.method || 'get'](path, function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+            var routerFunc = Reflect.get(router, method);
+            routerFunc(path, function (ctx) { return __awaiter(_this, void 0, void 0, function () {
                 var error_1, param, result;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
@@ -78,7 +80,7 @@ function register(router, controller, isInstance) {
                             if (ctx.status == 429)
                                 return [2 /*return*/];
                             param = dealParam_1.dealParam(ctx);
-                            return [4 /*yield*/, func_1.call(controller, param, ctx.request)];
+                            return [4 /*yield*/, func_1.call(controller, param, ctx.request, router)];
                         case 5:
                             result = _a.sent();
                             if (result instanceof Promise) {

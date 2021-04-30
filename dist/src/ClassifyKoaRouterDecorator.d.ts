@@ -3,7 +3,7 @@ import { ParameterizedContext } from "koa";
 declare type ControllerDecoratorConf = {
     path?: string;
 };
-declare type MethodType = 'get' | 'post' | 'delete' | 'put';
+export declare type MethodType = 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'ALL';
 declare type MethodDecoratorConf = {
     path?: string;
     method?: MethodType;
