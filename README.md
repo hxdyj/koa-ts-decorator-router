@@ -10,9 +10,9 @@ You can define your koa-router's routes by es6 class. like this
 @Controller({
     path: 'user'
 })
-export default class UserController {
+export class UserController {
 
-    static login({ name }: User) {
+    login({ name }: User) {
         console.log('param', name);
         return name
     }
@@ -21,7 +21,7 @@ export default class UserController {
         path:'myRegister',
         method: "post"
     })
-    static async register({ name, pass }: User) {
+    async register({ name, pass }: User) {
         const user = new User()
         user.name = name
         user.pass = pass
@@ -65,12 +65,19 @@ yarn add koa-ts-decorator-router
 | --- | --- | --- |
 | [router] | <code>Object</code> |  instance of koa-router|
 | [scanController] | <code>Ojbect</code> | scan controller config |
+| [otherOpts] | <code>Ojbect</code> | other config |
 
-### scanController Type
+#### scanController Type
 ```ts
 type ScanControllerOpts = {
     dirname: string,  // your Controller ts file dir
     filter: RegExp,  //filter you need regist to koa-router
+}
+```
+#### otherOpts Type
+```ts
+ type OtherOpts = {
+    logRoute?:boolean // console.log register route, while you debug app you can turn on this config.
 }
 ```
 
@@ -100,8 +107,8 @@ Controller 's path and Method's path composition to koa-route's path.
 
 `eg1`:
 ```ts
-export default class UserController {
-    static login({ name }: User) {
+export class UserController {
+    login({ name }: User) {
         console.log('param', name);
         return name
     }
@@ -115,8 +122,8 @@ koa-route will be `router.get(/login)`
 @Controller({
     path:'user'
 })
-export default class UserController {
-    static login({ name }: User) {
+export class UserController {
+    login({ name }: User) {
         console.log('param', name);
         return name
     }
@@ -127,11 +134,11 @@ koa-route will be `router.get(/user/login)`
 `eg3`:
 
 ```ts
-export default class UserController {
+export class UserController {
     @Method({
         method:'post'
     })
-    static login({ name }: User) {
+    login({ name }: User) {
         console.log('param', name);
         return name
     }
@@ -145,12 +152,12 @@ koa-route will be `router.post(/login)`
 @Controller({
     path:'////user//'
 })
-export default class UserController {
+export class UserController {
     @Method({
         method:'post',
         path:'//login////'
     })
-    static login({ name }: User) {
+    login({ name }: User) {
         console.log('param', name);
         return name
     }
@@ -163,12 +170,12 @@ koa-route will be `router.post(/user/login)`
 @Controller({
     path:'user'
 })
-export default class UserController {
+export class UserController {
     @Method({
         method:'post',
         path:'login/:id'
     })
-    static login({ name }: User) {
+    login({ name }: User) {
         console.log('param', name);
         return name
     }
@@ -180,7 +187,7 @@ koa-route will be `router.post(/user/login/:id)`
 
 * request.body is `Array`, It will be call `login(request.body, ctx.request)`
 * request.body is `Object`,It will be call `login(Object.assign(request.body,request.query), ctx.request)`
-* If method `First param` is `Array` or `Object` ,we will try to auto transform param outermost value, convert `string` to `number` or `float`.
+* If method `First param` is `Array` or `Object` ,we will try to   auto recursion transform param value, convert `string` to `number` or `float`.
 
 **Example**  
 Basic usage:
@@ -219,9 +226,9 @@ app.use(ClassifyKoaRouter(
 @Controller({
     path: 'user'
 })
-export default class UserController {
+export class UserController {
 
-    static login({ name }: User) {
+    login({ name }: User) {
         console.log('param', name);
         return name
     }
@@ -230,7 +237,7 @@ export default class UserController {
         path:'myRegister',
         method: "post"
     })
-    static async register({ name, pass }: User) {
+    async register({ name, pass }: User) {
         const user = new User()
         user.name = name
         user.pass = pass
@@ -246,11 +253,11 @@ Upload usage:
 @Controller({
     path: 'file'
 })
-export default class FileController {
+export class FileController {
     @Method({
         method: 'post'
     })
-    static upload(params:any,{ files }: { files:Files }) {
+    upload(params:any,{ files }: { files:Files }) {
         return saveFiles(files).map(i=>{
             delete i.filePath
             return i
@@ -261,7 +268,7 @@ export default class FileController {
 
 ## Notice
 
-* This lib must cooperation with [koa-body](git://github.com/dlau/koa-body.git) and [koa-router](https://github.com/koajs/router) used.
+* Use this lib must be cooperation with [koa-body](https://github.com/dlau/koa-body) and [koa-router](https://github.com/koajs/router).
 
 * Because lib use typescript decorator, you need allow options at `tsconfig.json`
 

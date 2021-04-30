@@ -1,0 +1,37 @@
+GET http://localhost:3000/user/login?name=songle
+
+GET http://localhost:3000/test/getlist?[1,2,3]
+
+
+GET http://localhost:3000/test/get?name=111
+
+
+POST http://localhost:3000/test/postlist
+content-type: application/json
+
+["1","2","3"]
+
+POST http://localhost:3000/test/postlist?name=songle
+content-type: application/json
+
+{
+    "age":"18"
+}
+
+POST http://localhost:3000/user/register 
+content-type: application/json
+test:111
+
+{
+    "name":"haha",
+    "pass":234234
+}
+
+
+POST http://localhost:3000/test1/nostatic 
+content-type: application/json
+
+   [ {
+        "name":"songle",
+        "pass":"234"
+    },"111"]

@@ -1,10 +1,18 @@
-import { Next, ParameterizedContext, Request } from "koa";
+import { Next, ParameterizedContext } from "koa";
 import Router from "koa-router";
 import { Controller, Method } from "./src/ClassifyKoaRouterDecorator";
 import { scanControllerAndRegister, ScanControllerOpts } from "./src/util";
-
-export default function ClassifyKoaRouter(router:Router,
-    scanController:ScanControllerOpts){
+export type OtherOpts = {
+    logRoute?:boolean
+}
+export default function ClassifyKoaRouter(
+    router:Router,
+    scanController:ScanControllerOpts,
+    otherOpts?:OtherOpts
+    ){
+    Object.assign(global,{
+        __otherOpts:otherOpts||{}
+    })
     scanControllerAndRegister(router,scanController)
 
     // tansfor rotuer to next.
