@@ -35,3 +35,6 @@ content-type: application/json
         "name":"songle",
         "pass":"234"
     },"111"]
+
+GET http://localhost:3000/test/callthis 
+

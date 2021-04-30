@@ -44,12 +44,13 @@ var requireAll = require('require-all');
 function register(router, controller, isInstance) {
     var _this = this;
     if (isInstance === void 0) { isInstance = false; }
-    Object.getOwnPropertyNames(controller).forEach(function (key) {
-        var value = Reflect.get(controller, key);
+    var currentController = isInstance ? Reflect.get(controller, '__proto__') : controller;
+    Object.getOwnPropertyNames(currentController).forEach(function (key) {
+        var value = Reflect.get(currentController, key);
         var excludeKeys = ['length', 'prototype', 'path', 'constructor'];
         if (!excludeKeys.includes(key) && value instanceof Function) {
             var func_1 = value;
-            var controllerPath = Reflect.get(isInstance ? controller.constructor : controller, 'path');
+            var controllerPath = Reflect.get(isInstance ? currentController.constructor : currentController, 'path');
             controllerPath = controllerPath ? '/' + controllerPath + '/' : '/';
             var methodPath = ClassifyKoaRouterDecorator_1.fixPath(func_1.path || key); // 没有写注解的method默认取方法名
             var path = controllerPath + methodPath;
@@ -77,7 +78,7 @@ function register(router, controller, isInstance) {
                             if (ctx.status == 429)
                                 return [2 /*return*/];
                             param = dealParam_1.dealParam(ctx);
-                            return [4 /*yield*/, func_1.call(null, param, ctx.request)];
+                            return [4 /*yield*/, func_1.call(controller, param, ctx.request)];
                         case 5:
                             result = _a.sent();
                             if (result instanceof Promise) {
@@ -98,7 +99,7 @@ function registerRoute(router, controller) {
     register(router, controller);
     //注册实例上的方法
     var instance = new controller.prototype.constructor();
-    register(router, instance.__proto__, true);
+    register(router, instance, true);
 }
 function scanControllerAndRegister(router, scanControllerOpts) {
     var allControllers = requireAll(scanControllerOpts);
