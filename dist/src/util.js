@@ -59,7 +59,7 @@ function register(router, controller, isInstance) {
                 console.log(method.padEnd(8) + " : " + path);
             }
             var routerFunc = Reflect.get(router, method);
-            routerFunc(path, function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+            routerFunc.call(router, path, function (ctx) { return __awaiter(_this, void 0, void 0, function () {
                 var error_1, param, result;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
