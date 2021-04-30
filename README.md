@@ -36,7 +36,7 @@ const Router = require('@koa/router');
 const router = new Router();
 
 router.get('/user/login',async (ctx, next) => {
-    ctx.body = name;//name is abave class UserController static login returned
+    ctx.body = name;//name is abave class UserController login returned
     await next()
 })
 
