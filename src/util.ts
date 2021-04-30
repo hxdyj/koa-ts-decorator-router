@@ -26,7 +26,7 @@ function register(router: Router, controller: ControllerType, isInstance = false
                 console.log(`${method.padEnd(8)} : ${path}`);
             }
             let routerFunc: Function = Reflect.get(router, method)
-            routerFunc(path, async (ctx: ParameterizedContext) => {
+            routerFunc.call(router, path, async (ctx: ParameterizedContext) => {
                 try {
                     if (func.rateLimitInstance && func.rateLimitConsumeFn) {
                         await func.rateLimitConsumeFn.call(null, func.rateLimitInstance, ctx)
