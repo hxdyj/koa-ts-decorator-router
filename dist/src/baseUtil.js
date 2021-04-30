@@ -8,7 +8,7 @@ function getType(object) {
 }
 exports.getType = getType;
 function isNumberString(input) {
-    return getType(input) === 'String' && /^(-|\+)?\d+\.?\d*$/g.test(input);
+    return getType(input) === 'String' && input.length <= 14 && /^(-|\+)?(\d+(\.\d+)|(\d*))$/g.test(input);
 }
 exports.isNumberString = isNumberString;
 function getOtherOpts() {
