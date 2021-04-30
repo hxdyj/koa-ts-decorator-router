@@ -164,6 +164,7 @@ export class UserController {
 }
 ```
 koa-route will be `router.post(/user/login)`
+
 `eg6`:
 
 ```ts
