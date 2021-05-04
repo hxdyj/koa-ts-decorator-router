@@ -28,7 +28,7 @@ test:111
 }
 
 
-POST http://localhost:3000/test1/nostatic 
+POST http://localhost:3000/test1/nostatic
 content-type: application/json
 
    [ {

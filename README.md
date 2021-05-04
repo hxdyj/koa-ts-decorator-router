@@ -90,6 +90,17 @@ type ControllerDecoratorConf = {
 ```
 * Notice: if you not offer path, while register koa-route will it default value will be `/`.
 
+
+### @Path(path:string)
+this decorator can use for controller and method.
+
+
+### @GET()
+### @POST()
+### @PUT()
+### @PATCH()
+### @ALL()
+
 ### Controller Method Decorator ([methodDecoratorOpts])
 ```ts
 type MethodDecoratorConf = {

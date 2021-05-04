@@ -1,4 +1,4 @@
-import { Controller, Method } from "../../src/ClassifyKoaRouterDecorator"
+import { Controller, GET, Method, Path, POST } from "../../src/ClassifyKoaRouterDecorator"
 
 @Controller({
     path: '////test//'
@@ -18,19 +18,20 @@ export default class TestController {
         return param
     }
 
+    @GET()
     callthis() {
         return this.getthis('test this')
     }
 }
 
 
-@Controller({
+/* @Controller({
     path: 'test1'
-})
+}) */
+@Path('test1')
 export class Test1 {
-    @Method({
-        method: 'POST'
-    })
+    @POST()
+    @Path('nostatic1')
     async nostatic(list: any) {
         return list
     }
