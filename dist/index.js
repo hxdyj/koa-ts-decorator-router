@@ -36,10 +36,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Method = exports.Controller = void 0;
+exports.Path = exports.ALL = exports.PATCH = exports.DELETE = exports.PUT = exports.POST = exports.GET = exports.Method = exports.Controller = void 0;
 var ClassifyKoaRouterDecorator_1 = require("./src/ClassifyKoaRouterDecorator");
 Object.defineProperty(exports, "Controller", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.Controller; } });
 Object.defineProperty(exports, "Method", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.Method; } });
+Object.defineProperty(exports, "GET", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.GET; } });
+Object.defineProperty(exports, "POST", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.POST; } });
+Object.defineProperty(exports, "PUT", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.PUT; } });
+Object.defineProperty(exports, "DELETE", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.DELETE; } });
+Object.defineProperty(exports, "PATCH", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.PATCH; } });
+Object.defineProperty(exports, "ALL", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.ALL; } });
+Object.defineProperty(exports, "Path", { enumerable: true, get: function () { return ClassifyKoaRouterDecorator_1.Path; } });
 var util_1 = require("./src/util");
 function ClassifyKoaRouter(router, scanController, otherOpts) {
     Object.assign(global, {

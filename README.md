@@ -99,6 +99,7 @@ this decorator can use for controller and method.
 ### @POST()
 ### @PUT()
 ### @PATCH()
+### @DELETE()
 ### @ALL()
 
 ### Controller Method Decorator ([methodDecoratorOpts])
