@@ -1,4 +1,4 @@
-import { Controller, GET, Method, Path, POST } from "../../src/ClassifyKoaRouterDecorator"
+import { Controller, GET, Method, Path, POST } from "../../src/Decorator"
 
 @Controller({
     path: '////test//'

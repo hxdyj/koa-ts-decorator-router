@@ -1,7 +1,7 @@
 import { Next, ParameterizedContext } from "koa";
 import Router from "koa-router";
-import { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path } from "./src/ClassifyKoaRouterDecorator";
-import { scanControllerAndRegister, ScanControllerOpts } from "./src/util";
+import { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path } from "./src/Decorator";
+import { scanControllerAndRegister, ScanControllerOpts } from "./src/ScanController";
 export type OtherOpts = {
     logRoute?: boolean
 }

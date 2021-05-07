@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.dealParam = void 0;
-var baseUtil_1 = require("./baseUtil");
+var BaseUtil_1 = require("./BaseUtil");
 //auto transform param value string to number.
 function tryToTransfromStringToNumber(str) {
     var result = str;
@@ -18,11 +18,11 @@ function tryToTransfromStringToNumber(str) {
     return result;
 }
 function recursionDealParam(obj) {
-    var objType = baseUtil_1.getType(obj);
+    var objType = BaseUtil_1.getType(obj);
     if (objType === 'Object' || objType === 'Array') {
         Object.keys(obj).forEach(function (key) {
             var val = obj[key];
-            if (baseUtil_1.isNumberString(val)) {
+            if (BaseUtil_1.isNumberString(val)) {
                 obj[key] = tryToTransfromStringToNumber(val);
             }
             else {
@@ -39,7 +39,7 @@ function dealParam(ctx) {
     var param = body || ctx.request.query || {};
     if (!(param instanceof Array)) {
         //merge body and query param.
-        if (baseUtil_1.getType(body) === 'Object') {
+        if (BaseUtil_1.getType(body) === 'Object') {
             Object.assign(param, ctx.request.query);
         }
     }

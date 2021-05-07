@@ -1,8 +1,8 @@
 import { ParameterizedContext } from "koa";
 import Router from "koa-router";
-import { getOtherOpts } from "./baseUtil";
-import { ControllerMethod, ControllerType, fixPath } from "./ClassifyKoaRouterDecorator";
-import { dealParam } from "./dealParam";
+import { getOtherOpts } from "./BaseUtil";
+import { ControllerMethod, ControllerType, fixPath } from "./Decorator";
+import { dealParam } from "./DealParam";
 const requireAll = require('require-all')
 export type ScanControllerOpts = {
     dirname: string,

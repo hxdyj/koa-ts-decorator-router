@@ -37,9 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.scanControllerAndRegister = void 0;
-var baseUtil_1 = require("./baseUtil");
-var ClassifyKoaRouterDecorator_1 = require("./ClassifyKoaRouterDecorator");
-var dealParam_1 = require("./dealParam");
+var BaseUtil_1 = require("./BaseUtil");
+var Decorator_1 = require("./Decorator");
+var DealParam_1 = require("./DealParam");
 var requireAll = require('require-all');
 function register(router, controller, isInstance) {
     var _this = this;
@@ -52,10 +52,10 @@ function register(router, controller, isInstance) {
             var func_1 = value;
             var controllerPath = Reflect.get(isInstance ? currentController.constructor : currentController, 'path');
             controllerPath = controllerPath ? '/' + controllerPath + '/' : '/';
-            var methodPath = ClassifyKoaRouterDecorator_1.fixPath(func_1.path || key); // 没有写注解的method默认取方法名
+            var methodPath = Decorator_1.fixPath(func_1.path || key); // 没有写注解的method默认取方法名
             var path = controllerPath + methodPath;
             var method = (func_1.method || 'GET').toLowerCase();
-            if (baseUtil_1.getOtherOpts().logRoute) {
+            if (BaseUtil_1.getOtherOpts().logRoute) {
                 console.log(method.padEnd(8) + " : " + path);
             }
             var routerFunc = Reflect.get(router, method);
@@ -79,7 +79,7 @@ function register(router, controller, isInstance) {
                         case 4:
                             if (ctx.status == 429)
                                 return [2 /*return*/];
-                            param = dealParam_1.dealParam(ctx);
+                            param = DealParam_1.dealParam(ctx);
                             return [4 /*yield*/, func_1.call(controller, param, ctx.request, router)];
                         case 5:
                             result = _a.sent();
