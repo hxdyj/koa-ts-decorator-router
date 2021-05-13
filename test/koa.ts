@@ -54,9 +54,7 @@ app.use(ClassifyKoaRouter<{
         logRoute: true,
         onBeforeCallMethod:
             (ctx, conf) => {
-                conf.customConf.isCheckToken
-                if (conf.customConf.isCheckToken) {
-
+                if (conf.customConf?.isCheckToken) {
                 }
                 let accessToken = ctx.request.get('accessToken') || ''
                 if (!accessToken) return 'Not Has AccessToken.'

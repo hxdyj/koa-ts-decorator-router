@@ -81,7 +81,11 @@ type OtherOpts = {
     /**
      * if return ture, will be call method. else not call method and ctx.body will be set to you function return value.
      *  */
-    onBeforeCallMethod?: (ctx: ParameterizedContext) => unknown
+    onBeforeCallMethod?: (ctx: ParameterizedContext,methodConf:{
+        fullPath: string,
+        method: MethodType,
+        customConf?: T
+    }) => unknown
 }
 ```
 
@@ -105,12 +109,14 @@ this decorator can use for controller and method.
 ### @PATCH()
 ### @DELETE()
 ### @ALL()
+### @CustomConf<T>(customConf:T)
 
 ### Controller Method Decorator ([methodDecoratorOpts])
 ```ts
-type MethodDecoratorConf = {
+type MethodDecoratorConf<T> = {
     path?: string,
     method?: MethodType,
+    customConf?: T
     rateLimitInstance?:RateLimiterStoreAbstract,
     rateLimitConsumeFn?:{
        (rateLimitInstance:RateLimiterStoreAbstract,ctx:Koa.ParameterizedContext): Promise<any>;

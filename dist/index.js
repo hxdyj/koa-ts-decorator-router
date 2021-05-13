@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Path = exports.ALL = exports.PATCH = exports.DELETE = exports.PUT = exports.POST = exports.GET = exports.Method = exports.Controller = void 0;
+exports.CustomConf = exports.Path = exports.ALL = exports.PATCH = exports.DELETE = exports.PUT = exports.POST = exports.GET = exports.Method = exports.Controller = void 0;
 var Decorator_1 = require("./src/Decorator");
 Object.defineProperty(exports, "Controller", { enumerable: true, get: function () { return Decorator_1.Controller; } });
 Object.defineProperty(exports, "Method", { enumerable: true, get: function () { return Decorator_1.Method; } });
@@ -47,6 +47,7 @@ Object.defineProperty(exports, "DELETE", { enumerable: true, get: function () { 
 Object.defineProperty(exports, "PATCH", { enumerable: true, get: function () { return Decorator_1.PATCH; } });
 Object.defineProperty(exports, "ALL", { enumerable: true, get: function () { return Decorator_1.ALL; } });
 Object.defineProperty(exports, "Path", { enumerable: true, get: function () { return Decorator_1.Path; } });
+Object.defineProperty(exports, "CustomConf", { enumerable: true, get: function () { return Decorator_1.CustomConf; } });
 var ScanController_1 = require("./src/ScanController");
 function ClassifyKoaRouter(router, scanController, otherOpts) {
     Object.assign(global, {
@@ -76,3 +77,4 @@ function ClassifyKoaRouter(router, scanController, otherOpts) {
     };
 }
 exports.default = ClassifyKoaRouter;
+//# sourceMappingURL=index.js.map

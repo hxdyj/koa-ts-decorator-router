@@ -47,3 +47,4 @@ function dealParam(ctx) {
     return param;
 }
 exports.dealParam = dealParam;
+//# sourceMappingURL=DealParam.js.map

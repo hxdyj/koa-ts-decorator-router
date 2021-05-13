@@ -53,20 +53,25 @@ function register(router, controller, isInstance) {
             var controllerPath = Reflect.get(isInstance ? currentController.constructor : currentController, 'path');
             controllerPath = controllerPath ? '/' + controllerPath + '/' : '/';
             var methodPath = Decorator_1.fixPath(func_1.path || key); // 没有写注解的method默认取方法名
-            var path = controllerPath + methodPath;
-            var method = (func_1.method || 'GET').toLowerCase();
+            var path_1 = controllerPath + methodPath;
+            var method_1 = (func_1.method || 'GET').toLowerCase();
             if (BaseUtil_1.getOtherOpts().logRoute) {
-                console.log(method.padEnd(8) + " : " + path);
+                console.log(method_1.padEnd(8) + " : " + path_1);
             }
-            var routerFunc = Reflect.get(router, method);
-            routerFunc.call(router, path, function (ctx) { return __awaiter(_this, void 0, void 0, function () {
-                var beforeMethodCallHookFn, hookResult, error_1, param, result;
+            var routerFunc = Reflect.get(router, method_1);
+            routerFunc.call(router, path_1, function (ctx) { return __awaiter(_this, void 0, void 0, function () {
+                var beforeMethodCallHookFn, methodConf, hookResult, error_1, param, result;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
                             beforeMethodCallHookFn = BaseUtil_1.getOtherOpts().onBeforeCallMethod;
                             if (beforeMethodCallHookFn && typeof beforeMethodCallHookFn === 'function') {
-                                hookResult = beforeMethodCallHookFn(ctx);
+                                methodConf = {
+                                    fullPath: path_1,
+                                    method: method_1,
+                                    customConf: func_1.customConf,
+                                };
+                                hookResult = beforeMethodCallHookFn(ctx, methodConf);
                                 if (hookResult !== true) {
                                     ctx.body = hookResult;
                                     return [2 /*return*/];
@@ -139,3 +144,4 @@ function scanControllerAndRegister(router, scanControllerOpts) {
     });
 }
 exports.scanControllerAndRegister = scanControllerAndRegister;
+//# sourceMappingURL=ScanController.js.map
