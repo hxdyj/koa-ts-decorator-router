@@ -4,6 +4,10 @@ import { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path } from "./
 import { ScanControllerOpts } from "./src/ScanController";
 export declare type OtherOpts = {
     logRoute?: boolean;
+    /**
+     * if return ture, will be call method. else not call method and ctx.body will be set to you function return value.
+     *  */
+    onBeforeCallMethod?: (ctx: ParameterizedContext) => unknown;
 };
 export default function ClassifyKoaRouter(router: Router, scanController: ScanControllerOpts, otherOpts?: OtherOpts): (ctx: ParameterizedContext, next: Next) => Promise<void>;
 export { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path };

@@ -60,28 +60,38 @@ function register(router, controller, isInstance) {
             }
             var routerFunc = Reflect.get(router, method);
             routerFunc.call(router, path, function (ctx) { return __awaiter(_this, void 0, void 0, function () {
-                var error_1, param, result;
+                var beforeMethodCallHookFn, hookResult, error_1, param, result;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            _a.trys.push([0, 3, , 4]);
-                            if (!(func_1.rateLimitInstance && func_1.rateLimitConsumeFn)) return [3 /*break*/, 2];
-                            return [4 /*yield*/, func_1.rateLimitConsumeFn.call(null, func_1.rateLimitInstance, ctx)];
+                            beforeMethodCallHookFn = BaseUtil_1.getOtherOpts().onBeforeCallMethod;
+                            if (beforeMethodCallHookFn && typeof beforeMethodCallHookFn === 'function') {
+                                hookResult = beforeMethodCallHookFn(ctx);
+                                if (hookResult !== true) {
+                                    ctx.body = hookResult;
+                                    return [2 /*return*/];
+                                }
+                            }
+                            _a.label = 1;
                         case 1:
+                            _a.trys.push([1, 4, , 5]);
+                            if (!(func_1.rateLimitInstance && func_1.rateLimitConsumeFn)) return [3 /*break*/, 3];
+                            return [4 /*yield*/, func_1.rateLimitConsumeFn.call(null, func_1.rateLimitInstance, ctx)];
+                        case 2:
                             _a.sent();
-                            _a.label = 2;
-                        case 2: return [3 /*break*/, 4];
-                        case 3:
+                            _a.label = 3;
+                        case 3: return [3 /*break*/, 5];
+                        case 4:
                             error_1 = _a.sent();
                             ctx.status = 429;
                             ctx.body = 'Too Many Requests';
-                            return [3 /*break*/, 4];
-                        case 4:
+                            return [3 /*break*/, 5];
+                        case 5:
                             if (ctx.status == 429)
                                 return [2 /*return*/];
                             param = DealParam_1.dealParam(ctx);
                             return [4 /*yield*/, func_1.call(controller, param, ctx.request, router)];
-                        case 5:
+                        case 6:
                             result = _a.sent();
                             if (result instanceof Promise) {
                                 result.catch(function (err) {

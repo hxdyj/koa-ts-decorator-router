@@ -13,5 +13,5 @@ export function isNumberString(input: any): boolean {
 
 
 export function getOtherOpts(): OtherOpts {
-    return Reflect.get(global, '__otherOpts')
+    return Reflect.get(global, '__otherOpts') || {}
 }

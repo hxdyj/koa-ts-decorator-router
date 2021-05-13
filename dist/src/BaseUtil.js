@@ -12,6 +12,6 @@ function isNumberString(input) {
 }
 exports.isNumberString = isNumberString;
 function getOtherOpts() {
-    return Reflect.get(global, '__otherOpts');
+    return Reflect.get(global, '__otherOpts') || {};
 }
 exports.getOtherOpts = getOtherOpts;

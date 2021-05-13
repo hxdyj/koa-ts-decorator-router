@@ -46,7 +46,11 @@ app.use(ClassifyKoaRouter(
         filter: /(.*Controller)\.ts$/,
     },
     {
-        logRoute:true
+        logRoute: true,
+        onBeforeCallMethod: (ctx) => {
+            let accessToken = ctx.request.get('accessToken') || ''
+            if (!accessToken) return 'Not Has AccessToken.'
+        }
     }
 ))
 

@@ -27,6 +27,16 @@ function register(router: Router, controller: ControllerType, isInstance = false
             }
             let routerFunc: Function = Reflect.get(router, method)
             routerFunc.call(router, path, async (ctx: ParameterizedContext) => {
+
+                let beforeMethodCallHookFn = getOtherOpts().onBeforeCallMethod
+                if (beforeMethodCallHookFn && typeof beforeMethodCallHookFn === 'function') {
+                    let hookResult = beforeMethodCallHookFn(ctx)
+                    if (hookResult !== true) {
+                        ctx.body = hookResult
+                        return
+                    }
+                }
+
                 try {
                     if (func.rateLimitInstance && func.rateLimitConsumeFn) {
                         await func.rateLimitConsumeFn.call(null, func.rateLimitInstance, ctx)
