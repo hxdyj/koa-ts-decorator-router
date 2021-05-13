@@ -78,6 +78,10 @@ type ScanControllerOpts = {
 ```ts
 type OtherOpts = {
     logRoute?:boolean // console.log register route, while you debug app you can turn on this config.
+    /**
+     * if return ture, will be call method. else not call method and ctx.body will be set to you function return value.
+     *  */
+    onBeforeCallMethod?: (ctx: ParameterizedContext) => unknown
 }
 ```
 
