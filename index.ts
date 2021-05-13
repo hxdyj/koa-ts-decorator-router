@@ -3,14 +3,14 @@ import Router from "koa-router";
 import { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path, MethodType, CustomConf } from "./src/Decorator";
 import { scanControllerAndRegister, ScanControllerOpts } from "./src/ScanController";
 
-export type BeforeCallMethodMethodConf<T> = {
+type BeforeCallMethodConf<T> = {
     fullPath: string,
     method: MethodType,
     customConf?: T
 }
 
 type OnBeforeCallMethodFunc<T> = {
-    (ctx: ParameterizedContext, methodConf: BeforeCallMethodMethodConf<T>): unknown
+    (ctx: ParameterizedContext, methodConf: BeforeCallMethodConf<T>): unknown
 }
 
 export type OtherOpts<T> = {
@@ -41,4 +41,4 @@ export default function ClassifyKoaRouter<T>(
         await next()
     }
 }
-export { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path, CustomConf }
+export { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path, CustomConf, BeforeCallMethodConf }

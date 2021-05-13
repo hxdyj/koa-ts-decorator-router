@@ -3,7 +3,7 @@ import Router from "koa-router";
 import { getOtherOpts } from "./BaseUtil";
 import { ControllerMethod, ControllerType, fixPath, MethodType } from "./Decorator";
 import { dealParam } from "./DealParam";
-import { BeforeCallMethodMethodConf } from "../index";
+import { BeforeCallMethodConf } from "../index";
 const requireAll = require('require-all')
 export type ScanControllerOpts = {
     dirname: string,
@@ -31,7 +31,7 @@ function register(router: Router, controller: ControllerType, isInstance = false
 
                 let beforeMethodCallHookFn = getOtherOpts().onBeforeCallMethod
                 if (beforeMethodCallHookFn && typeof beforeMethodCallHookFn === 'function') {
-                    const methodConf: BeforeCallMethodMethodConf<unknown> = {
+                    const methodConf: BeforeCallMethodConf<unknown> = {
                         fullPath: path,
                         method: method as unknown as MethodType,
                         customConf: func.customConf,

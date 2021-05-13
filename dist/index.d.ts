@@ -2,13 +2,13 @@ import { Next, ParameterizedContext } from "koa";
 import Router from "koa-router";
 import { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path, MethodType, CustomConf } from "./src/Decorator";
 import { ScanControllerOpts } from "./src/ScanController";
-export declare type BeforeCallMethodMethodConf<T> = {
+declare type BeforeCallMethodConf<T> = {
     fullPath: string;
     method: MethodType;
     customConf?: T;
 };
 declare type OnBeforeCallMethodFunc<T> = {
-    (ctx: ParameterizedContext, methodConf: BeforeCallMethodMethodConf<T>): unknown;
+    (ctx: ParameterizedContext, methodConf: BeforeCallMethodConf<T>): unknown;
 };
 export declare type OtherOpts<T> = {
     logRoute?: boolean;
@@ -18,4 +18,4 @@ export declare type OtherOpts<T> = {
     onBeforeCallMethod?: OnBeforeCallMethodFunc<T>;
 };
 export default function ClassifyKoaRouter<T>(router: Router, scanController: ScanControllerOpts, otherOpts?: OtherOpts<T>): (ctx: ParameterizedContext, next: Next) => Promise<void>;
-export { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path, CustomConf };
+export { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path, CustomConf, BeforeCallMethodConf };
