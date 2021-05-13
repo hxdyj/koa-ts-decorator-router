@@ -77,4 +77,3 @@ function ClassifyKoaRouter(router, scanController, otherOpts) {
     };
 }
 exports.default = ClassifyKoaRouter;
-//# sourceMappingURL=index.js.map

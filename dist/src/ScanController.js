@@ -144,4 +144,3 @@ function scanControllerAndRegister(router, scanControllerOpts) {
     });
 }
 exports.scanControllerAndRegister = scanControllerAndRegister;
-//# sourceMappingURL=ScanController.js.map

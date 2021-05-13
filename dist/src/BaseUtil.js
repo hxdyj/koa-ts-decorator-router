@@ -15,4 +15,3 @@ function getOtherOpts() {
     return Reflect.get(global, '__otherOpts') || {};
 }
 exports.getOtherOpts = getOtherOpts;
-//# sourceMappingURL=BaseUtil.js.map
