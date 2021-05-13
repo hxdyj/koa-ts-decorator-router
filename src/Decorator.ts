@@ -7,17 +7,18 @@ type ControllerDecoratorConf = {
 
 export type MethodType = 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'ALL'
 
-type MethodDecoratorConf = {
+type MethodDecoratorConf<T> = {
     path?: string,
     method?: MethodType,
-    rateLimitInstance?: RateLimiterStoreAbstract
+    customConf?: T
+    rateLimitInstance?: RateLimiterStoreAbstract,
     rateLimitConsumeFn?: {
         (rateLimitInstance: RateLimiterStoreAbstract, ctx: ParameterizedContext): Promise<any>;
-    };
+    },
 }
 
 export type ControllerType = Function & ControllerDecoratorConf
-export type ControllerMethod = Function & MethodDecoratorConf & {
+export type ControllerMethod<T> = Function & MethodDecoratorConf<T> & {
     method: MethodType,
 }
 
@@ -34,7 +35,7 @@ export function Controller(conf?: ControllerDecoratorConf) {
         })
     }
 }
-export function Method(conf?: MethodDecoratorConf) {
+export function Method<T>(conf?: MethodDecoratorConf<T>) {
     return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
         let value = target[propertyKey]
         let path = fixPath(conf?.path || value.path || propertyKey)
@@ -42,7 +43,8 @@ export function Method(conf?: MethodDecoratorConf) {
             path: path,
             method: conf?.method || value.method || 'GET',
             rateLimitConsumeFn: conf?.rateLimitConsumeFn || value.rateLimitConsumeFn,
-            rateLimitInstance: conf?.rateLimitInstance || value.rateLimitInstance
+            rateLimitInstance: conf?.rateLimitInstance || value.rateLimitInstance,
+            customConf: conf?.customConf || value.customConf
         })
     };
 }
@@ -54,6 +56,12 @@ export function Path(path: string) {
         } else {
             Controller({ path })(target)
         }
+    };
+}
+
+export function CustomConf<T>(customConf: T) {
+    return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+        Method({ customConf })(target, propertyKey, descriptor)
     };
 }
 

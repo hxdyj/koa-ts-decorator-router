@@ -39,7 +39,12 @@ app.use(KoaBody({
 
 const router = new Router()
 
-app.use(ClassifyKoaRouter(
+
+
+
+app.use(ClassifyKoaRouter<{
+    isCheckToken: boolean
+}>(
     router,
     {
         dirname: path.join(__dirname + '/controller'),
@@ -47,10 +52,15 @@ app.use(ClassifyKoaRouter(
     },
     {
         logRoute: true,
-        onBeforeCallMethod: (ctx) => {
-            let accessToken = ctx.request.get('accessToken') || ''
-            if (!accessToken) return 'Not Has AccessToken.'
-        }
+        onBeforeCallMethod:
+            (ctx, conf) => {
+                conf.customConf.isCheckToken
+                if (conf.customConf.isCheckToken) {
+
+                }
+                let accessToken = ctx.request.get('accessToken') || ''
+                if (!accessToken) return 'Not Has AccessToken.'
+            }
     }
 ))
 

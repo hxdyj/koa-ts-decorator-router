@@ -1,4 +1,4 @@
-import { Controller, GET, Method, Path, POST } from "../../src/Decorator"
+import { Controller, CustomConf, GET, Method, Path, POST } from "../../src/Decorator"
 
 @Controller({
     path: '////test//'
@@ -19,6 +19,9 @@ export default class TestController {
     }
 
     @GET()
+    @CustomConf({
+        test: true
+    })
     callthis() {
         return this.getthis('test this')
     }

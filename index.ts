@@ -1,20 +1,31 @@
 import { Next, ParameterizedContext } from "koa";
 import Router from "koa-router";
-import { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path } from "./src/Decorator";
+import { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path, MethodType, CustomConf } from "./src/Decorator";
 import { scanControllerAndRegister, ScanControllerOpts } from "./src/ScanController";
-export type OtherOpts = {
+
+export type BeforeCallMethodMethodConf<T> = {
+    fullPath: string,
+    method: MethodType,
+    customConf?: T
+}
+
+type OnBeforeCallMethodFunc<T> = {
+    (ctx: ParameterizedContext, methodConf: BeforeCallMethodMethodConf<T>): unknown
+}
+
+export type OtherOpts<T> = {
     logRoute?: boolean,
     /**
      * if return ture, will be call method. else not call method and ctx.body will be set to you function return value.
      *  */
-    onBeforeCallMethod?: (ctx: ParameterizedContext) => unknown
+    onBeforeCallMethod?: OnBeforeCallMethodFunc<T>
 }
 
 
-export default function ClassifyKoaRouter(
+export default function ClassifyKoaRouter<T>(
     router: Router,
     scanController: ScanControllerOpts,
-    otherOpts?: OtherOpts
+    otherOpts?: OtherOpts<T>
 ) {
     Object.assign(global, {
         __otherOpts: otherOpts || {}
@@ -30,4 +41,4 @@ export default function ClassifyKoaRouter(
         await next()
     }
 }
-export { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path }
+export { Controller, Method, GET, POST, PUT, DELETE, PATCH, ALL, Path, CustomConf }

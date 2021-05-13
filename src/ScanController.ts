@@ -1,8 +1,9 @@
 import { ParameterizedContext } from "koa";
 import Router from "koa-router";
 import { getOtherOpts } from "./BaseUtil";
-import { ControllerMethod, ControllerType, fixPath } from "./Decorator";
+import { ControllerMethod, ControllerType, fixPath, MethodType } from "./Decorator";
 import { dealParam } from "./DealParam";
+import { BeforeCallMethodMethodConf } from "../index";
 const requireAll = require('require-all')
 export type ScanControllerOpts = {
     dirname: string,
@@ -16,7 +17,7 @@ function register(router: Router, controller: ControllerType, isInstance = false
         let value = Reflect.get(currentController, key)
         let excludeKeys = ['length', 'prototype', 'path', 'constructor']
         if (!excludeKeys.includes(key) && value instanceof Function) {
-            let func = value as unknown as ControllerMethod
+            let func = value as unknown as ControllerMethod<unknown>
             let controllerPath = Reflect.get(isInstance ? currentController.constructor : currentController, 'path')
             controllerPath = controllerPath ? '/' + controllerPath + '/' : '/'
             const methodPath = fixPath(func.path || key)  // 没有写注解的method默认取方法名
@@ -30,7 +31,12 @@ function register(router: Router, controller: ControllerType, isInstance = false
 
                 let beforeMethodCallHookFn = getOtherOpts().onBeforeCallMethod
                 if (beforeMethodCallHookFn && typeof beforeMethodCallHookFn === 'function') {
-                    let hookResult = beforeMethodCallHookFn(ctx)
+                    const methodConf: BeforeCallMethodMethodConf<unknown> = {
+                        fullPath: path,
+                        method: method as unknown as MethodType,
+                        customConf: func.customConf,
+                    }
+                    let hookResult = beforeMethodCallHookFn(ctx, methodConf)
                     if (hookResult !== true) {
                         ctx.body = hookResult
                         return
