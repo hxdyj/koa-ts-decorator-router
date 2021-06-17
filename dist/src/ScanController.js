@@ -60,44 +60,53 @@ function register(router, controller, isInstance) {
             }
             var routerFunc = Reflect.get(router, method_1);
             routerFunc.call(router, path_1, function (ctx) { return __awaiter(_this, void 0, void 0, function () {
-                var beforeMethodCallHookFn, methodConf, hookResult, error_1, param, result;
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
+                var beforeMethodCallHookFn, methodConf, hookResult, hookFlag, _a, error_1, param, result;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
                         case 0:
                             beforeMethodCallHookFn = BaseUtil_1.getOtherOpts().onBeforeCallMethod;
-                            if (beforeMethodCallHookFn && typeof beforeMethodCallHookFn === 'function') {
-                                methodConf = {
-                                    fullPath: path_1,
-                                    method: method_1,
-                                    customConf: func_1.customConf,
-                                };
-                                hookResult = beforeMethodCallHookFn(ctx, methodConf);
-                                if (hookResult !== true) {
-                                    ctx.body = hookResult;
-                                    return [2 /*return*/];
-                                }
-                            }
-                            _a.label = 1;
+                            if (!(beforeMethodCallHookFn && typeof beforeMethodCallHookFn === 'function')) return [3 /*break*/, 4];
+                            methodConf = {
+                                fullPath: path_1,
+                                method: method_1,
+                                customConf: func_1.customConf,
+                            };
+                            hookResult = beforeMethodCallHookFn(ctx, methodConf);
+                            if (!(hookResult instanceof Promise)) return [3 /*break*/, 2];
+                            return [4 /*yield*/, hookResult];
                         case 1:
-                            _a.trys.push([1, 4, , 5]);
-                            if (!(func_1.rateLimitInstance && func_1.rateLimitConsumeFn)) return [3 /*break*/, 3];
-                            return [4 /*yield*/, func_1.rateLimitConsumeFn.call(null, func_1.rateLimitInstance, ctx)];
+                            _a = _b.sent();
+                            return [3 /*break*/, 3];
                         case 2:
-                            _a.sent();
-                            _a.label = 3;
-                        case 3: return [3 /*break*/, 5];
+                            _a = hookResult;
+                            _b.label = 3;
+                        case 3:
+                            hookFlag = _a;
+                            if (hookFlag !== true) {
+                                ctx.body = hookFlag;
+                                return [2 /*return*/];
+                            }
+                            _b.label = 4;
                         case 4:
-                            error_1 = _a.sent();
+                            _b.trys.push([4, 7, , 8]);
+                            if (!(func_1.rateLimitInstance && func_1.rateLimitConsumeFn)) return [3 /*break*/, 6];
+                            return [4 /*yield*/, func_1.rateLimitConsumeFn.call(null, func_1.rateLimitInstance, ctx)];
+                        case 5:
+                            _b.sent();
+                            _b.label = 6;
+                        case 6: return [3 /*break*/, 8];
+                        case 7:
+                            error_1 = _b.sent();
                             ctx.status = 429;
                             ctx.body = 'Too Many Requests';
-                            return [3 /*break*/, 5];
-                        case 5:
+                            return [3 /*break*/, 8];
+                        case 8:
                             if (ctx.status == 429)
                                 return [2 /*return*/];
                             param = DealParam_1.dealParam(ctx);
                             return [4 /*yield*/, func_1.call(controller, param, ctx.request, router)];
-                        case 6:
-                            result = _a.sent();
+                        case 9:
+                            result = _b.sent();
                             if (result instanceof Promise) {
                                 result.catch(function (err) {
                                     return err;

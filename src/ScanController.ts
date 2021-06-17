@@ -37,8 +37,9 @@ function register(router: Router, controller: ControllerType, isInstance = false
                         customConf: func.customConf,
                     }
                     let hookResult = beforeMethodCallHookFn(ctx, methodConf)
-                    if (hookResult !== true) {
-                        ctx.body = hookResult
+                    let hookFlag = hookResult instanceof Promise ? await hookResult : hookResult
+                    if (hookFlag !== true) {
+                        ctx.body = hookFlag
                         return
                     }
                 }
