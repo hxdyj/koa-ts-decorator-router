@@ -114,17 +114,17 @@ type ControllerDecoratorConf = {
 
 this decorator can use for controller and method.
 
-### @GET()
+### @GET(path?:string)
 
-### @POST()
+### @POST(path?:string)
 
-### @PUT()
+### @PUT(path?:string)
 
-### @PATCH()
+### @PATCH(path?:string)
 
-### @DELETE()
+### @DELETE(path?:string)
 
-### @ALL()
+### @ALL(path?:string)
 
 ### @CustomConf<T>(customConf:T)
 
