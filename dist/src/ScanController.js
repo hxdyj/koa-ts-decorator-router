@@ -40,21 +40,23 @@ exports.scanControllerAndRegister = void 0;
 var BaseUtil_1 = require("./BaseUtil");
 var Decorator_1 = require("./Decorator");
 var DealParam_1 = require("./DealParam");
-var requireAll = require('require-all');
+var requireAll = require("require-all");
 function register(router, controller, isInstance) {
     var _this = this;
     if (isInstance === void 0) { isInstance = false; }
-    var currentController = isInstance ? Reflect.get(controller, '__proto__') : controller;
+    var currentController = isInstance
+        ? Reflect.get(controller, "__proto__")
+        : controller;
     Object.getOwnPropertyNames(currentController).forEach(function (key) {
         var value = Reflect.get(currentController, key);
-        var excludeKeys = ['length', 'prototype', 'path', 'constructor'];
+        var excludeKeys = ["length", "prototype", "path", "constructor"];
         if (!excludeKeys.includes(key) && value instanceof Function) {
             var func_1 = value;
-            var controllerPath = Reflect.get(isInstance ? currentController.constructor : currentController, 'path');
-            controllerPath = controllerPath ? '/' + controllerPath + '/' : '/';
+            var controllerPath = Reflect.get(isInstance ? currentController.constructor : currentController, "path");
+            controllerPath = controllerPath ? "/" + controllerPath + "/" : "/";
             var methodPath = Decorator_1.fixPath(func_1.path || key); // 没有写注解的method默认取方法名
             var path_1 = controllerPath + methodPath;
-            var method_1 = (func_1.method || 'GET').toLowerCase();
+            var method_1 = (func_1.method || "GET").toLowerCase();
             if (BaseUtil_1.getOtherOpts().logRoute) {
                 console.log(method_1.padEnd(8) + " : " + path_1);
             }
@@ -65,7 +67,8 @@ function register(router, controller, isInstance) {
                     switch (_b.label) {
                         case 0:
                             beforeMethodCallHookFn = BaseUtil_1.getOtherOpts().onBeforeCallMethod;
-                            if (!(beforeMethodCallHookFn && typeof beforeMethodCallHookFn === 'function')) return [3 /*break*/, 4];
+                            if (!(beforeMethodCallHookFn &&
+                                typeof beforeMethodCallHookFn === "function")) return [3 /*break*/, 4];
                             methodConf = {
                                 fullPath: path_1,
                                 method: method_1,
@@ -98,7 +101,7 @@ function register(router, controller, isInstance) {
                         case 7:
                             error_1 = _b.sent();
                             ctx.status = 429;
-                            ctx.body = 'Too Many Requests';
+                            ctx.body = "Too Many Requests";
                             return [3 /*break*/, 8];
                         case 8:
                             if (ctx.status == 429)
@@ -134,8 +137,9 @@ function scanControllerAndRegister(router, scanControllerOpts) {
         Object.values(object).forEach(function (item) {
             var i = item;
             var keys = Object.getOwnPropertyNames(i);
-            var exludeKeys = ['__esModule'];
-            if (i.hasOwnProperty('__esModule') && Reflect.get(i, '__esModule') === true) {
+            var exludeKeys = ["__esModule"];
+            if (i.hasOwnProperty("__esModule") &&
+                Reflect.get(i, "__esModule") === true) {
                 keys.forEach(function (key) {
                     if (!exludeKeys.includes(key)) {
                         controllers.push(Reflect.get(i, key));

@@ -32,14 +32,17 @@ function recursionDealParam(obj: any) {
 export function dealParam(ctx: ParameterizedContext) {
   let body = Reflect.get(ctx.request, "body");
   let param = body || ctx.request.query || {};
+  let otherOpts = getOtherOpts();
   if (!(param instanceof Array)) {
     //merge body and query param.
     if (getType(body) === "Object") {
-      if (getOtherOpts().assignQuery) {
+      if (otherOpts.assignQuery) {
         Object.assign(param, ctx.request.query);
       }
     }
   }
-  recursionDealParam(param);
+  if (otherOpts.convertDigital) {
+    recursionDealParam(param);
+  }
   return param;
 }

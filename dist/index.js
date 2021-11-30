@@ -51,7 +51,7 @@ Object.defineProperty(exports, "CustomConf", { enumerable: true, get: function (
 var ScanController_1 = require("./src/ScanController");
 function ClassifyKoaRouter(router, scanController, otherOpts) {
     Object.assign(global, {
-        __otherOpts: otherOpts || {}
+        __otherOpts: otherOpts || {},
     });
     ScanController_1.scanControllerAndRegister(router, scanController);
     // tansfor rotuer to next.

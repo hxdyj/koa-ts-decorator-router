@@ -29,6 +29,7 @@ type OnBeforeCallMethodFunc<T> = {
 };
 
 export type OtherOpts<T> = {
+  convertDigital?: boolean;
   assignQuery?: boolean;
   logRoute?: boolean;
   /**

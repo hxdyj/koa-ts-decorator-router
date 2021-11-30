@@ -2,220 +2,249 @@
 
 > You can via typescript class and decorator to difine your [koa-router](https://github.com/koajs/router)'s routes middleware for [Koa](https://github.com/koajs/koa).
 
-
 ## Features
 
 You can define your koa-router's routes by es6 class. like this
-``` ts
+
+```ts
 @Controller({
-    path: 'user'
+  path: "user",
 })
 export class UserController {
+  login({ name }: User) {
+    console.log("param", name);
+    return name;
+  }
 
-    login({ name }: User) {
-        console.log('param', name);
-        return name
-    }
-
-    @Method({
-        path:'myRegister',
-        method: "POST"
-    })
-    async register({ name, pass }: User) {
-        const user = new User()
-        user.name = name
-        user.pass = pass
-        await mysql().getRepository(User).save(user)
-        return user
-    }
+  @Method({
+    path: "myRegister",
+    method: "POST",
+  })
+  async register({ name, pass }: User) {
+    const user = new User();
+    user.name = name;
+    user.pass = pass;
+    await mysql().getRepository(User).save(user);
+    return user;
+  }
 }
 ```
+
 This will be transfer to koa-route like:
-``` js
-const Router = require('@koa/router');
+
+```js
+const Router = require("@koa/router");
 const router = new Router();
 
-router.get('/user/login',async (ctx, next) => {
-    ctx.body = name;//name is abave class UserController login returned
-    await next()
-})
+router.get("/user/login", async (ctx, next) => {
+  ctx.body = name; //name is abave class UserController login returned
+  await next();
+});
 
-router.post('/user/myRegister',async (ctx, next) => {
-    ctx.body = user;
-    await next()
-})
-
+router.post("/user/myRegister", async (ctx, next) => {
+  ctx.body = user;
+  await next();
+});
 ```
 
 ## Installation
 
 ```bash
-# npm .. 
+# npm ..
 npm i koa-ts-decorator-router
-# yarn .. 
+# yarn ..
 yarn add koa-ts-decorator-router
 ```
 
 ## API
 
 ### ClassifyKoaRouter ⏏
-**Kind**: Exported function  
 
-| Param | Type | Description |
-| --- | --- | --- |
-| [router] | <code>Object</code> |  instance of koa-router|
+**Kind**: Exported function
+
+| Param            | Type                | Description            |
+| ---------------- | ------------------- | ---------------------- |
+| [router]         | <code>Object</code> | instance of koa-router |
 | [scanController] | <code>Ojbect</code> | scan controller config |
-| [otherOpts] | <code>Ojbect</code> | other config |
+| [otherOpts]      | <code>Ojbect</code> | other config           |
 
 #### scanController Type
+
 ```ts
 type ScanControllerOpts = {
-    dirname: string,  // your Controller ts file dir
-    filter: RegExp,  //filter you need regist to koa-router
-}
+  dirname: string; // your Controller ts file dir
+  filter: RegExp; //filter you need regist to koa-router
+};
 ```
+
 #### otherOpts Type
+
 ```ts
 type OtherOpts = {
-    logRoute?:boolean // console.log register route, while you debug app you can turn on this config.
-    /**
-     * if return ture, will be call method. else not call method and ctx.body will be set to you function return value.
-     *  */
-    onBeforeCallMethod?: (ctx: ParameterizedContext,methodConf:{
-        fullPath: string,
-        method: MethodType,
-        customConf?: T
-    }) => unknown
-}
+  convertDigital?: boolean; // is try convert param string to number.
+  assignQuery?: boolean; // is Object.assign ctx.request.query to ctx.request.body when body is Object type.
+  logRoute?: boolean; // console.log register route, while you debug app you can turn on this config.
+  /**
+   * if return ture, will be call method. else not call method and ctx.body will be set to you function return value.
+   *  */
+  onBeforeCallMethod?: (
+    ctx: ParameterizedContext,
+    methodConf: {
+      fullPath: string;
+      method: MethodType;
+      customConf?: T;
+    },
+  ) => unknown;
+};
 ```
 
 ### Controller Decorator ([controllerDecoratorOpts])
+
 #### controllerDecoratorOpts Type
+
 ```ts
 type ControllerDecoratorConf = {
-    path?: string
-}
+  path?: string;
+};
 ```
-* Notice: if you not offer path, while register koa-route will it default value will be `/`.
 
+- Notice: if you not offer path, while register koa-route will it default value will be `/`.
 
 ### @Path(path:string)
+
 this decorator can use for controller and method.
 
-
 ### @GET()
+
 ### @POST()
+
 ### @PUT()
+
 ### @PATCH()
+
 ### @DELETE()
+
 ### @ALL()
+
 ### @CustomConf<T>(customConf:T)
 
 ### Controller Method Decorator ([methodDecoratorOpts])
+
 ```ts
 type MethodDecoratorConf<T> = {
-    path?: string,
-    method?: MethodType,
-    customConf?: T
-    rateLimitInstance?:RateLimiterStoreAbstract,
-    rateLimitConsumeFn?:{
-       (rateLimitInstance:RateLimiterStoreAbstract,ctx:Koa.ParameterizedContext): Promise<any>;
-    };
-}
+  path?: string;
+  method?: MethodType;
+  customConf?: T;
+  rateLimitInstance?: RateLimiterStoreAbstract;
+  rateLimitConsumeFn?: {
+    (
+      rateLimitInstance: RateLimiterStoreAbstract,
+      ctx: Koa.ParameterizedContext,
+    ): Promise<any>;
+  };
+};
 ```
+
 If you offer [RateLimiterStoreAbstract](https://github.com/animir/node-rate-limiter-flexible#basic-options), and `rateLimitConsumeFn` you can define you function to consume rateLimit.
 
 Controller 's path and Method's path composition to koa-route's path.
 
 `eg1`:
+
 ```ts
 export class UserController {
-    login({ name }: User) {
-        console.log('param', name);
-        return name
-    }
+  login({ name }: User) {
+    console.log("param", name);
+    return name;
+  }
 }
 ```
+
 koa-route will be `router.get(/login)`
 
 `eg2`:
 
 ```ts
 @Controller({
-    path:'user'
+  path: "user",
 })
 export class UserController {
-    login({ name }: User) {
-        console.log('param', name);
-        return name
-    }
+  login({ name }: User) {
+    console.log("param", name);
+    return name;
+  }
 }
 ```
+
 koa-route will be `router.get(/user/login)`
 
 `eg3`:
 
 ```ts
 export class UserController {
-    @Method({
-        method:'POST'
-    })
-    login({ name }: User) {
-        console.log('param', name);
-        return name
-    }
+  @Method({
+    method: "POST",
+  })
+  login({ name }: User) {
+    console.log("param", name);
+    return name;
+  }
 }
 ```
+
 koa-route will be `router.post(/login)`
 
 `eg5`:
 
 ```ts
 @Controller({
-    path:'////user//'
+  path: "////user//",
 })
 export class UserController {
-    @Method({
-        method:'POST',
-        path:'//login////'
-    })
-    login({ name }: User) {
-        console.log('param', name);
-        return name
-    }
+  @Method({
+    method: "POST",
+    path: "//login////",
+  })
+  login({ name }: User) {
+    console.log("param", name);
+    return name;
+  }
 }
 ```
+
 koa-route will be `router.post(/user/login)`
 
 `eg6`:
 
 ```ts
 @Controller({
-    path:'user'
+  path: "user",
 })
 export class UserController {
-    @Method({
-        method:'POST',
-        path:'login/:id'
-    })
-    login({ name }: User) {
-        console.log('param', name);
-        return name
-    }
+  @Method({
+    method: "POST",
+    path: "login/:id",
+  })
+  login({ name }: User) {
+    console.log("param", name);
+    return name;
+  }
 }
 ```
+
 koa-route will be `router.post(/user/login/:id)`
 
 ### Controller Method Param
 
-* request.body is `Array`, It will be call `login(request.body, ctx.request, router)`
-* request.body is `Object`,It will be call `login(Object.assign(request.body,request.query), ctx.request, router)`
-* If method `First param` is `Array` or `Object` ,we will try to   auto recursion transform param value, convert `string` to `number` or `float`.
+- request.body is `Array`, It will be call `login(request.body, ctx.request, router)`
+- request.body is `Object`, And if otherOpt assignQuery is ture . It will be call `login(Object.assign(request.body,request.query), ctx.request, router)`
+- If method `First param` is `Array` or `Object`, And if otherOpt convertDigital is true. we will try to auto recursion transform param value, convert `string` to `number` or `float`.
 
 **Example**  
 Basic usage:
 
 `The directory structure`
+
 ```
 .
 ├── controllers
@@ -225,75 +254,80 @@ Basic usage:
 ```
 
 `index.ts`
+
 ```ts
-import Koa from 'koa'
-import Router from 'koa-router'
-import KoaBody from 'koa-body'
+import Koa from "koa";
+import Router from "koa-router";
+import KoaBody from "koa-body";
 
-app.use(KoaBody({
-    multipart: true
-}))
+app.use(
+  KoaBody({
+    multipart: true,
+  }),
+);
 
-const router = new Router()
+const router = new Router();
 
-app.use(ClassifyKoaRouter(
-    router,
-    {
-        dirname: path.join(__dirname + './controllers'),  // your Controller ts file dir
-        filter: /(.*Controller)\.ts$/,  //filter you need regist to koa-router
-    }
-))
+app.use(
+  ClassifyKoaRouter(router, {
+    dirname: path.join(__dirname + "./controllers"), // your Controller ts file dir
+    filter: /(.*Controller)\.ts$/, //filter you need regist to koa-router
+  }),
+);
 ```
+
 `UserController.ts`
+
 ```ts
 @Controller({
-    path: 'user'
+  path: "user",
 })
 export class UserController {
+  login({ name }: User) {
+    console.log("param", name);
+    return name;
+  }
 
-    login({ name }: User) {
-        console.log('param', name);
-        return name
-    }
-
-    @Method({
-        path:'myRegister',
-        method: "POST"
-    })
-    async register({ name, pass }: User) {
-        const user = new User()
-        user.name = name
-        user.pass = pass
-        await mysql().getRepository(User).save(user)
-        return user
-    }
+  @Method({
+    path: "myRegister",
+    method: "POST",
+  })
+  async register({ name, pass }: User) {
+    const user = new User();
+    user.name = name;
+    user.pass = pass;
+    await mysql().getRepository(User).save(user);
+    return user;
+  }
 }
 ```
+
 Upload usage:
 
 `FileController`
+
 ```ts
 @Controller({
-    path: 'file'
+  path: "file",
 })
 export class FileController {
-    @Method({
-        method: 'POST'
-    })
-    upload(params:any,{ files }: { files:Files }) {
-        return saveFiles(files).map(i=>{
-            delete i.filePath
-            return i
-        })
-    }
+  @Method({
+    method: "POST",
+  })
+  upload(params: any, { files }: { files: Files }) {
+    return saveFiles(files).map((i) => {
+      delete i.filePath;
+      return i;
+    });
+  }
 }
 ```
 
 ## Notice
 
-* Use this lib must be cooperation with [koa-body](https://github.com/dlau/koa-body) and [koa-router](https://github.com/koajs/router).
+- Use this lib must be cooperation with [koa-body](https://github.com/dlau/koa-body) and [koa-router](https://github.com/koajs/router).
 
-* Because lib use typescript decorator, you need allow options at `tsconfig.json`
+- Because lib use typescript decorator, you need allow options at `tsconfig.json`
 
 ```json
 "experimentalDecorators": true, /* Enables experimental support for ES7 decorators. */

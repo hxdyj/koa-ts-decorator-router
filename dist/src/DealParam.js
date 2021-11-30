@@ -13,13 +13,12 @@ function tryToTransfromStringToNumber(str) {
             result = parseInt(str);
         }
     }
-    catch (error) {
-    }
+    catch (error) { }
     return result;
 }
 function recursionDealParam(obj) {
     var objType = BaseUtil_1.getType(obj);
-    if (objType === 'Object' || objType === 'Array') {
+    if (objType === "Object" || objType === "Array") {
         Object.keys(obj).forEach(function (key) {
             var val = obj[key];
             if (BaseUtil_1.isNumberString(val)) {
@@ -35,15 +34,20 @@ function recursionDealParam(obj) {
     }
 }
 function dealParam(ctx) {
-    var body = Reflect.get(ctx.request, 'body');
+    var body = Reflect.get(ctx.request, "body");
     var param = body || ctx.request.query || {};
+    var otherOpts = BaseUtil_1.getOtherOpts();
     if (!(param instanceof Array)) {
         //merge body and query param.
-        if (BaseUtil_1.getType(body) === 'Object') {
-            Object.assign(param, ctx.request.query);
+        if (BaseUtil_1.getType(body) === "Object") {
+            if (otherOpts.assignQuery) {
+                Object.assign(param, ctx.request.query);
+            }
         }
     }
-    recursionDealParam(param);
+    if (otherOpts.convertDigital) {
+        recursionDealParam(param);
+    }
     return param;
 }
 exports.dealParam = dealParam;
