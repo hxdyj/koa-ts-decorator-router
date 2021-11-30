@@ -3,7 +3,7 @@ import { ParameterizedContext } from "koa";
 declare type ControllerDecoratorConf = {
     path?: string;
 };
-export declare type MethodType = 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'ALL';
+export declare type MethodType = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "ALL";
 declare type MethodDecoratorConf<T> = {
     path?: string;
     method?: MethodType;
@@ -22,10 +22,10 @@ export declare function Controller(conf?: ControllerDecoratorConf): (target: Fun
 export declare function Method<T>(conf?: MethodDecoratorConf<T>): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
 export declare function Path(path: string): (target: any, propertyKey?: string | undefined, descriptor?: PropertyDescriptor | undefined) => void;
 export declare function CustomConf<T>(customConf: T): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
-export declare function POST(): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
-export declare function GET(): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
-export declare function PUT(): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
-export declare function DELETE(): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
-export declare function PATCH(): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
-export declare function ALL(): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export declare function POST(path?: string): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export declare function GET(path?: string): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export declare function PUT(path?: string): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export declare function DELETE(path?: string): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export declare function PATCH(path?: string): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
+export declare function ALL(path?: string): (target: any, propertyKey: string, descriptor: PropertyDescriptor) => void;
 export {};
